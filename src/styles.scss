@@ -1,2 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import './assets/scss/appShared';
+@import './assets/scss/base/ngSelectOverrides';
+
+.required, .error-message {
+  color: $required;
+}
+
+.is-invalid {
+  border-color: $required;
+}
+
+// input form overrides
+.form-control {
+  border-radius: 0px !important;
+}
+
+
+.text-overflow {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
