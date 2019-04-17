@@ -1,0 +1,11 @@
+<ng-container [formGroup]="group">
+  <label>{{label}}</label><span *ngIf="required" class="required"> *</span>
+  <div style="position: relative;">
+    <input type="text" [name]="name" class="form-control disable-action"
+      [ngClass]="{ 'is-invalid': isFormSubmitted && form[name].errors }" [placeholder]="placeholder || 'Select Date'"
+      [placement]="placement || 'bottom'" [bsConfig]="bsConfig" [minDate]="_min" [maxDate]="_max"
+      [daysDisabled]="daysDisabled" [datesDisabled]="_datesDisabled" [bsValue]="bsValue || null"
+      (bsValueChange)="onValueChange($event)" #dp="bsDatepicker" bsDatepicker>
+    <span class="fa fa-calendar add-on" (click)="dp.show()"></span>
+  </div>
+</ng-container>

@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './layouts/components/navbar/navbar.component';
 import { AppLayoutComponent } from './layouts/components/app-layout/app-layout.component';
 import { SharedModule } from './shared/shared.module';
+import { ApplicationProperties } from './constants/app.properties';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -31,7 +32,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     AppRoutingModule
   ],
-  providers: [],
+  providers: [ApplicationProperties],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
