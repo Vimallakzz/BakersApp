@@ -56,6 +56,7 @@ export class DatePickerComponent implements OnInit {
 
   @Input() name: string;
   @Input() label: string;
+  @Input() format: string;
   @Input() placeholder;
   @Input() required: boolean;
   @Input() isFormSubmitted: boolean;
@@ -113,7 +114,8 @@ export class DatePickerComponent implements OnInit {
       selectFromOtherMonth: true,
       selectWeek: false,
       showWeekNumbers: false,
-      adaptivePosition: this.adaptivePosition || false
+      adaptivePosition: this.adaptivePosition || false,
+      dateInputFormat: this.format || this.properties.viewDateFormat
     };
   }
 
