@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader, MissingTranslationHandler, MissingTranslationHandlerParams } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TooltipModule, BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap';
@@ -8,6 +10,7 @@ import { InputComponent } from './components/input/input.component';
 import { SelectComponent } from './components/select/select.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { ApplicationProperties } from '../constants/app.properties';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 /**
  * This function getDatepickerConfig sets global configuration for ngx-bootstrap
@@ -20,6 +23,13 @@ export function getDatepickerConfig(): BsDatepickerConfig {
   });
 }
 
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+
+
 @NgModule({
   declarations: [InputComponent, SelectComponent, DatePickerComponent],
   imports: [
@@ -28,13 +38,22 @@ export function getDatepickerConfig(): BsDatepickerConfig {
     ReactiveFormsModule,
     NgSelectModule,
     TooltipModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      },
+    }),
   ],
   exports: [
     InputComponent,
     SelectComponent,
     DatePickerComponent,
 
+    TranslateModule,
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
