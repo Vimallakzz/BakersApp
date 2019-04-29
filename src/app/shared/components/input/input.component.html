@@ -3,5 +3,5 @@
   <label>{{label}}</label><span *ngIf="required" class="required"> *</span>
   <input [type]="type" [formControlName]="name" class="form-control"
     [ngClass]="{ 'is-invalid': isFormSubmitted && form[name].errors }" (blur)="onBlur($event)"
-    (focus)="onFocus($event)" />
+    (focus)="onFocus($event)" (input)="onValueChange($event)"/>
 </ng-container>

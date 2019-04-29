@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-input',
@@ -23,6 +23,9 @@ export class InputComponent implements OnInit {
   @Input() label: string;
   @Input() required: boolean;
   @Input() isFormSubmitted: boolean;
+  @Input() modelValue: string;
+
+  @Output() public modelValueChange: EventEmitter<any> = new EventEmitter<any>();
   @Output() handleFocus: EventEmitter<any> = new EventEmitter<any>();
   @Output() handleBlur: EventEmitter<any> = new EventEmitter<any>();
 
@@ -30,9 +33,12 @@ export class InputComponent implements OnInit {
     return this.group.controls;
   }
 
-  constructor() { }
+  constructor(public formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    if (!this.group) {
+      this.group = this.formBuilder.group({ [this.name]: [this.modelValue || null] });
+    }
   }
 
   onFocus(evt: any) {
@@ -41,5 +47,9 @@ export class InputComponent implements OnInit {
 
   onBlur(evt: any) {
     this.handleBlur.emit(evt);
+  }
+
+  onValueChange(evt: any) {
+    this.modelValueChange.emit(evt.target.value);
   }
 }

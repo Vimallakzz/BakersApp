@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-select',
@@ -41,19 +41,26 @@ export class SelectComponent implements OnInit {
   @Input() isWhole = false;
   @Input() clearable: boolean;
   @Input() isFormSubmitted: boolean;
+  @Input() modelValue: string;
+
+  @Output() public modelValueChange: EventEmitter<any> = new EventEmitter<any>();
   @Output() public change: EventEmitter<any> = new EventEmitter();
-
-
 
   get form() {
     return this.group.controls;
   }
 
-  // constructor(public errorMessage: ErrorMessageService) {}
+  constructor(public formBuilder: FormBuilder) {
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (!this.group) {
+      this.group = this.formBuilder.group({ [this.name]: [this.modelValue || null] });
+    }
+  }
 
   onChange(value) {
     this.change.emit(value);
+    this.modelValueChange.emit(value);
   }
 }
