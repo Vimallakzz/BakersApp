@@ -28,6 +28,7 @@ export class InputComponent implements OnInit {
   @Output() public modelValueChange: EventEmitter<any> = new EventEmitter<any>();
   @Output() handleFocus: EventEmitter<any> = new EventEmitter<any>();
   @Output() handleBlur: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public change: EventEmitter<any> = new EventEmitter();
 
   get form() {
     return this.group.controls;
@@ -50,6 +51,7 @@ export class InputComponent implements OnInit {
   }
 
   onValueChange(evt: any) {
+    this.change.emit(evt.target.value);
     this.modelValueChange.emit(evt.target.value);
   }
 }

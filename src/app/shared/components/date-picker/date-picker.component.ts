@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnChanges } from '@angular/core';
 import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
@@ -25,7 +25,7 @@ defineLocales();
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss']
 })
-export class DatePickerComponent implements OnInit {
+export class DatePickerComponent implements OnInit, OnChanges {
   /**
    * DatePickerComponent creates wrapper for ngx-bootstrap date picker.
    * It allows  to send Date format as "string | Date | moment.Moment", so that wrapper converts to required format. The following keys are
@@ -117,6 +117,14 @@ export class DatePickerComponent implements OnInit {
       adaptivePosition: this.adaptivePosition || false,
       dateInputFormat: this.format || this.properties.viewDateFormat
     };
+  }
+
+  ngOnChanges() {
+    this.group.controls[this.name].valueChanges.subscribe(value => {
+      if (!value && this.bsValue) {
+        this.bsValue = null;
+      }
+    });
   }
 
   dateConversion(key: string, value: string | Date | moment.Moment) {
