@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { isObject } from 'src/app/core/utils/functions';
 
 @Component({
   selector: 'app-select',
@@ -16,7 +17,7 @@ export class SelectComponent implements OnInit {
    * isWhole - used to map whole object or else want to map id
    *  example
    *  isWhole = false, [--name--] : [--valuekey--]
-   *  isWhole = false, [--name--] : {--complete object --}
+   *  isWhole = true, [--name--] : {--complete object --}
    * Example:
    * 1.Multi-select with bind id, eg. [1,2,3]. Inorder to bind whole object pass isWhole="true"
    *  <app-select name="role" label="Add Role" required="true" [isFormSubmitted]="submitted"
@@ -42,12 +43,32 @@ export class SelectComponent implements OnInit {
   @Input() clearable: boolean;
   @Input() isFormSubmitted: boolean;
   @Input() modelValue: string;
+  @Input() isEdit = true;
+  @Input() additionalLabelKey: string;
+  @Input() isErrorOnChange = false;
 
   @Output() public modelValueChange: EventEmitter<any> = new EventEmitter<any>();
   @Output() public change: EventEmitter<any> = new EventEmitter();
 
   get form() {
     return this.group.controls;
+  }
+
+  get value() {
+    const { name, labelKey, valueKey, options, group  } = this;
+    const fieldValue = group.value[name];
+    if (fieldValue) {
+      if (isObject(fieldValue)) {
+        return fieldValue[labelKey];
+      } else {
+        if (isObject(options[0])) {
+          const selectedOpt  = options.filter(option => option[valueKey] === fieldValue)[0];
+          return selectedOpt ? selectedOpt[labelKey] : '';
+        }
+        return fieldValue;
+      }
+    }
+    return '';
   }
 
   constructor(public formBuilder: FormBuilder) {

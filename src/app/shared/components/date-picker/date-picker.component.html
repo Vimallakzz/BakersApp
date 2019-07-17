@@ -1,11 +1,23 @@
 <ng-container [formGroup]="group">
-  <label>{{label}}</label><span *ngIf="required" class="required"> *</span>
-  <div style="position: relative;">
-    <input type="text" [name]="name" class="form-control disable-action"
-      [ngClass]="{ 'is-invalid': isFormSubmitted && form[name].errors }" [placeholder]="placeholder || 'Select Date'"
-      [placement]="placement || 'bottom'" [bsConfig]="bsConfig" [minDate]="_min" [maxDate]="_max"
-      [daysDisabled]="daysDisabled" [datesDisabled]="_datesDisabled" [bsValue]="bsValue || null"
-      (bsValueChange)="onValueChange($event)" #dp="bsDatepicker" bsDatepicker>
-    <span class="fa fa-calendar add-on" (click)="dp.show()"></span>
-  </div>
+  <label *ngIf="label">{{label}}</label><span *ngIf="required" class="required"> *</span>
+  <ng-container *ngIf="isEdit; else elseTemplate">
+    <div style="position: relative;" class="mb-3" (click)="dp.show()">
+      <input type="text" [name]="name" class="form-control disable-action"
+        [ngClass]="{ 'is-invalid': isFormSubmitted && form[name].errors }" [placeholder]="placeholder || ''"
+        [placement]="placement || 'bottom'" [bsConfig]="bsConfig" [minDate]="_min" [maxDate]="_max"
+        [daysDisabled]="daysDisabled" [datesDisabled]="_datesDisabled"
+        value="{{ bsValue | date: viewPipeFormat }}"
+        (bsValueChange)="onValueChange($event)" #dp="bsDatepicker" bsDatepicker>
+      <span class="fa fa-calendar add-on" (click)="dp.show()"></span>
+      <div *ngIf="form[name].errors && (isFormSubmitted || (!form[name].pristine && isErrorOnChange))"
+        [ngClass]="{ 'error-message position-absolute': form[name].errors && (isFormSubmitted || (!form[name].pristine && isErrorOnChange)) }">
+        {{form[name].errors.message}}
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #elseTemplate>
+    <div class="h-30 d-flex text-content align-items-center">
+      {{group.value[name] | date: getViewMode}}
+    </div>
+  </ng-template>
 </ng-container>

@@ -24,7 +24,8 @@ export class InputComponent implements OnInit {
   @Input() required: boolean;
   @Input() isFormSubmitted: boolean;
   @Input() modelValue: string;
-
+  @Input() isEdit = true;
+  @Input() isErrorOnChange = false;
   @Output() public modelValueChange: EventEmitter<any> = new EventEmitter<any>();
   @Output() handleFocus: EventEmitter<any> = new EventEmitter<any>();
   @Output() handleBlur: EventEmitter<any> = new EventEmitter<any>();

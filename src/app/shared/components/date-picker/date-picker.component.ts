@@ -25,7 +25,7 @@ defineLocales();
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss']
 })
-export class DatePickerComponent implements OnInit, OnChanges {
+export class DatePickerComponent implements OnInit {
   /**
    * DatePickerComponent creates wrapper for ngx-bootstrap date picker.
    * It allows  to send Date format as "string | Date | moment.Moment", so that wrapper converts to required format. The following keys are
@@ -48,6 +48,9 @@ export class DatePickerComponent implements OnInit, OnChanges {
    */
   public _min: Date;
   public _max: Date;
+  public minMode: 'day' | 'month' | 'year';
+  public viewPipeFormat: string = this.properties.datePipeFormat;
+  public saveFormat: string = this.properties.saveDateFormat;
   public _datesDisabled: Date[];
   public bsValue: Date;
   public bsConfig: Partial<BsDatepickerConfig>;
@@ -56,20 +59,49 @@ export class DatePickerComponent implements OnInit, OnChanges {
 
   @Input() name: string;
   @Input() label: string;
-  @Input() format: string;
+  @Input() viewFormat: string;
   @Input() placeholder;
   @Input() required: boolean;
   @Input() isFormSubmitted: boolean;
+  @Input() isEdit = true;
   @Input() adaptivePosition: boolean;
 
   @Input() placement: 'top' | 'bottom' | 'left' | 'right';
   @Input() theme: 'theme-default' | 'theme-green' | 'theme-blue' | 'theme-dark-blue' | 'theme-red' | 'theme-orange';
   @Input() daysDisabled: number[];
-  @Input() viewMode: 'day' | 'month' | 'year';
-
   @Input() modelValue: string | Date | moment.Moment;
-  @Output() public modelValueChange: EventEmitter<any> = new EventEmitter<any>();
+  @Input() isErrorOnChange = false;
 
+  @Output() public modelValueChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public change: EventEmitter<any> = new EventEmitter();
+
+  @Input()
+  set viewMode(value: 'day' | 'month' | 'year') {
+    this.minMode = value;
+    switch (value) {
+      case 'day':
+        this.viewFormat = this.properties.viewDateFormat;
+        this.saveFormat = this.properties.saveDateFormat;
+        this.viewPipeFormat = this.properties.datePipeFormat;
+        break;
+
+      case 'month':
+        this.viewFormat = this.properties.viewMonthFormat;
+        this.saveFormat = this.properties.saveMonthFormat;
+        this.viewPipeFormat = this.properties.monthPipeFormat;
+        break;
+
+      case 'year':
+        this.viewFormat = this.properties.viewYearFormat;
+        this.saveFormat = this.properties.saveYearFormat;
+        this.viewPipeFormat = this.properties.yearPipeFormat;
+        break;
+      default:
+        this.viewFormat = this.properties.viewDateFormat;
+        this.saveFormat = this.properties.saveDateFormat;
+        this.viewPipeFormat = this.properties.datePipeFormat;
+    }
+  }
   @Input()
   set min(value: string | Date | moment.Moment) {
     this.dateConversion('_min', value);
@@ -95,14 +127,21 @@ export class DatePickerComponent implements OnInit, OnChanges {
     return this.group.controls;
   }
 
+  get getViewMode() {
+    return this.minMode === 'month' ? this.properties.monthPipeFormat : this.properties.datePipeFormat;
+  }
 
-  constructor(public properties: ApplicationProperties, public formBuilder: FormBuilder) {
+  constructor(public properties: ApplicationProperties, public formBuilder: FormBuilder) { }
+
+  ngOnInit() {
     if (!this.group) {
       this.group = this.formBuilder.group({ [this.name]: [null] });
     }
-  }
-
-  ngOnInit() {
+    this.group.controls[this.name].valueChanges.subscribe(value => {
+      if (!value && this.bsValue) {
+        this.bsValue = null;
+      }
+    });
     const fieldValue = this.group.value[this.name] || this.modelValue;
     if (fieldValue) {
       this.setBsValue(fieldValue);
@@ -110,21 +149,13 @@ export class DatePickerComponent implements OnInit, OnChanges {
 
     this.bsConfig = {
       containerClass: this.theme || 'theme-default',
-      minMode: this.viewMode || 'day',
+      minMode: this.minMode || 'day',
       selectFromOtherMonth: true,
       selectWeek: false,
       showWeekNumbers: false,
       adaptivePosition: this.adaptivePosition || false,
-      dateInputFormat: this.format || this.properties.viewDateFormat
+      dateInputFormat: this.viewFormat || this.properties.viewDateFormat
     };
-  }
-
-  ngOnChanges() {
-    this.group.controls[this.name].valueChanges.subscribe(value => {
-      if (!value && this.bsValue) {
-        this.bsValue = null;
-      }
-    });
   }
 
   dateConversion(key: string, value: string | Date | moment.Moment) {
@@ -147,9 +178,11 @@ export class DatePickerComponent implements OnInit, OnChanges {
   onValueChange(value: Date): void {
     if (value) {
       setTimeout(() => {
-        this.group.patchValue({[this.name]: moment(value).format(this.properties.saveDateFormat)});
+        this.group.markAsDirty();
         this.bsValue = value;
-        this.modelValueChange.emit(moment(value).format(this.properties.saveDateFormat));
+        this.group.patchValue({[this.name]: moment(value).format(this.saveFormat)});
+        this.modelValueChange.emit(moment(value).format(this.saveFormat));
+        this.change.emit(moment(value).format(this.saveFormat));
       });
     }
   }

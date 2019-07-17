@@ -1,7 +1,19 @@
-
 <ng-container [formGroup]="group">
-  <label>{{label}}</label><span *ngIf="required" class="required"> *</span>
-  <input [type]="type" [formControlName]="name" class="form-control"
-    [ngClass]="{ 'is-invalid': isFormSubmitted && form[name].errors }" (blur)="onBlur($event)"
-    (focus)="onFocus($event)" (input)="onValueChange($event)"/>
+  <label *ngIf="label">{{label}}</label><span *ngIf="required" class="required"> *</span>
+  <ng-container *ngIf="isEdit; else elseTemplate">
+    <div class="pb-3">
+      <input [type]="type" [formControlName]="name" class="form-control"
+        [ngClass]="{ 'is-invalid': form[name].errors && (isFormSubmitted || (!form[name].pristine && isErrorOnChange))  }"
+        (blur)="onBlur($event)" (focus)="onFocus($event)" (input)="onValueChange($event)" />
+      <div *ngIf="form[name].errors && (isFormSubmitted || (!form[name].pristine && isErrorOnChange)) "
+        [ngClass]="{ 'error-message position-absolute': form[name].errors && (isFormSubmitted || (!form[name].pristine && isErrorOnChange))  }">
+        {{form[name].errors.message}}
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #elseTemplate>
+    <div class="h-30 d-flex text-content align-items-center" [tooltip]="group.value[name] || ''">
+      {{group.value[name] || ''}}
+    </div>
+  </ng-template>
 </ng-container>

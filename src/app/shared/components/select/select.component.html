@@ -1,34 +1,45 @@
 <div [formGroup]="group" class="ng-select-tooltip">
-  <label>{{label}}</label><span *ngIf="required" class="required"> *</span>
-  <ng-select [formControlName]="name" [items]="options" [bindLabel]="labelKey" [bindValue]="isWhole ? '' : valueKey"
-    [clearable]="clearable" [multiple]="multiple || false" [hideSelected]="multiple || false"
-    (change)="onChange($event)" [ngClass]="{ 'is-invalid': isFormSubmitted && form[name].errors }" autoCapitalize="on">
-    <ng-container *ngIf="!multiple">
-      <!-- custom dropdown for show tooltip for long labels  -->
-      <ng-template ng-label-tmp let-item="item">
-        <div class="text-overflow" placement="right" tooltip="{{item[labelKey] || item}}">
-          {{item[labelKey] || item}}</div>
-      </ng-template>
-      <ng-template ng-option-tmp let-item="item">
-        <div class="text-overflow" placement="right" tooltip="{{item[labelKey] || item}}">
-          {{item[labelKey] || item}}</div>
-      </ng-template>
-    </ng-container>
-    <ng-container *ngIf="multiple">
-      <!-- custom tag for showing multiselect values-->
-      <ng-template ng-label-tmp let-item="item" let-clear="clear">
-        <span *ngIf="!item.isDefault" class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-        <span class="ng-value-label text-overflow" placement="right" tooltip="{{item[labelKey] || item}}">{{item[labelKey] || item}}</span>
-      </ng-template>
-      <ng-template ng-option-tmp let-item="item">
-        <div class="text-overflow" placement="right" tooltip="{{item[labelKey] || item}}">
-          {{item[labelKey] || item}}
-        </div>
-      </ng-template>
-    </ng-container>
-  </ng-select>
-  <!-- <div *ngIf="isFormSubmitted && form[name].errors"
-      [ngClass]="{ 'error-message pt-1': isFormSubmitted && form[name].errors }">
-      {{errorMessage.get(form, name)}}
-    </div> -->
+  <label *ngIf="label">{{label}}</label><span *ngIf="required" class="required"> *</span>
+  <ng-container *ngIf="isEdit; else elseTemplate">
+    <div class="pb-3">
+      <ng-select [formControlName]="name" [items]="options" [bindLabel]="labelKey" [bindValue]="isWhole ? '' : valueKey"
+        [clearable]="clearable" [multiple]="multiple || false" [hideSelected]="multiple || false"
+        (change)="onChange($event)"
+        [ngClass]="{ 'is-invalid': form[name].errors && (isFormSubmitted || (!form[name].pristine && isErrorOnChange)) }" autoCapitalize="on">
+        <ng-container *ngIf="!multiple">
+          <!-- custom dropdown for show tooltip for long labels  -->
+          <ng-template ng-label-tmp let-item="item">
+            <div class="text-overflow" placement="right" tooltip="{{item[labelKey] || item}}">
+              {{item[labelKey] || item}}{{additionalLabelKey ? - item[additionalLabelKey] : ''}}  </div>
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            <div class="text-overflow" placement="right" tooltip="{{item[labelKey] || item}}">
+              {{item[labelKey] || item}}{{additionalLabelKey ? -  item[additionalLabelKey] : ''}}  </div>
+          </ng-template>
+        </ng-container>
+        <ng-container *ngIf="multiple">
+          <!-- custom tag for showing multiselect values-->
+          <ng-template ng-label-tmp let-item="item" let-clear="clear">
+            <span *ngIf="!item.isDefault" class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+            <span class="ng-value-label text-overflow" placement="right"
+              tooltip="{{item[labelKey] || item}}">{{item[labelKey] || item}}</span>
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            <div class="text-overflow" placement="right" tooltip="{{item[labelKey] || item}}">
+              {{item[labelKey] || item}}
+            </div>
+          </ng-template>
+        </ng-container>
+      </ng-select>
+      <div *ngIf="form[name].errors && (isFormSubmitted || (!form[name].pristine && isErrorOnChange))"
+        [ngClass]="{ 'error-message position-absolute': form[name].errors && (isFormSubmitted || (!form[name].pristine && isErrorOnChange)) }">
+        {{form[name].errors.message}}
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #elseTemplate>
+    <div class="h-30 d-flex text-content align-items-center" [tooltip]="value">
+      {{value}}
+    </div>
+  </ng-template>
 </div>
