@@ -8,10 +8,11 @@ import { NavbarComponent } from './layouts/components/navbar/navbar.component';
 import { AppLayoutComponent } from './layouts/components/app-layout/app-layout.component';
 import { SharedModule } from './shared/shared.module';
 import { ApplicationProperties } from './constants/app.properties';
+import { LoginComponent } from './login/components/login/login.component';
 
 
 @NgModule({
-  declarations: [AppComponent, AppLayoutComponent, NavbarComponent],
+  declarations: [AppComponent, AppLayoutComponent, NavbarComponent, LoginComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

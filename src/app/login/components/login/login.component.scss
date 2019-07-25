@@ -1,0 +1,66 @@
+@import 'src/assets/scss/appVariables';
+
+.login-page {
+  background-image: url('../../../../assets/images/bg.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  .forget-password {
+    color: #2f2fac;
+    float: right;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .forget-message {
+    color: #6C5D56;
+  }
+  .login-card {
+    padding-right: 5rem;
+    .loginlink {
+      display:block;
+      width: 260px;
+      height: 50px;
+      border-radius: 25px;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+      background-color: #fa4d15;
+      padding-top:11px;
+    }
+    .loginbutton {
+      width: 200px;
+      height: 45px;
+      font-size: 16px;
+      font-family: Poppins, sans-serif;
+      line-height: 1.5;
+      color: #ffffff;
+    }
+    .h-max-content {
+      height: max-content;
+    }
+    .card-signin {
+      width: 20%;
+      label {
+        color: #6C5D56;
+        font-weight: bold;
+      }
+      input {
+        background-color: #fff !important;
+        border: none;
+        border-bottom:  1px solid #9E948E;
+      }
+      .form-control:focus {
+        box-shadow: none !important;
+      }
+    }
+  }
+}
+
+.btn-login {
+  background-color: #5e781b!important;
+  color: #fff!important;
+}
+
+.h-100 {
+  height: 100%;
+}

@@ -1,0 +1,42 @@
+<div class="login-page h-100 d-flex">
+  <div class="login-card d-flex align-items-center w-100 justify-content-end">
+    <!-- <button *ngIf="!isCustomerLogin" class="btn loginlink loginbutton text-center" type="button" (click)="redirectADUrl()">
+        {{properties.labels.LOGIN_WITH_OLAM_ID}}
+      </button> -->
+    <div class="card card-signin my-5 h-max-content mr-5 py-4">
+      <div class="card-body">
+        <h5 class="card-title text-center">
+          <img src="../../../../assets/images/Olam Logo.png">
+        </h5>
+        <form *ngIf="!isForgetPassword" class="form-signin pt-3">
+          <div class="form-label-group">
+            <label for="inputEmail">Email</label>
+            <input type="email" id="inputEmail" class="form-control" required [(ngModel)]="model.email"
+              [ngModelOptions]="{standalone: true}">
+          </div>
+
+          <div class="form-label-group">
+            <label for="inputPassword">Password</label>
+            <input type="password" id="inputPassword" class="form-control" required [(ngModel)]="model.password"
+              [ngModelOptions]="{standalone: true}">
+          </div>
+          <button class="btn btn-lg btn-login mt-5 mb-3 btn-block" type="submit">Login</button>
+          <span class="forget-password" (click)="isForgetPassword=true">Forgot Password ?</span>
+        </form>
+        <form *ngIf="isForgetPassword" class="form-signin pt-3">
+          <div class="forget-message">
+              That's OK; we're here to help.
+              Please enter the Email address and click on button retrieve password this will mail password to your email account.
+          </div>
+          <div class="form-label-group pt-2">
+              <label for="inputEmail">Email</label>
+              <input type="email" class="form-control" required [(ngModel)]="forgotPasswordEmail"
+                [ngModelOptions]="{standalone: true}">
+            </div>
+            <button class="btn btn-lg btn-login mt-5 mb-3 btn-block" type="submit">Retrieve Password</button>
+          <span class="forget-password" (click)="isForgetPassword=false"> <--Back to Login</span>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
