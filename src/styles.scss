@@ -22,3 +22,13 @@
   white-space: nowrap;
   overflow: hidden;
 }
+
+.flex-align-center {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.w-250px {
+  width: 250px;
+}

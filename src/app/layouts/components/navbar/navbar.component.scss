@@ -1,0 +1,19 @@
+@import 'src/assets/scss/appVariables';
+
+.side-navbar {
+  height: 100vh;
+  background-color: $dark-green;
+  font-size: rem(14px);
+
+  .navbar {
+    background-color: $dark-green;
+    .nav-link {
+      color: $white;
+    }
+  }
+}
+
+.router-link-active {
+  background-color: $light-green;
+  font-size: rem(16px);
+}

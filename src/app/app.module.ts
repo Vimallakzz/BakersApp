@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, AppCustomPreloader } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './layouts/components/navbar/navbar.component';
 import { AppLayoutComponent } from './layouts/components/app-layout/app-layout.component';
@@ -20,7 +20,7 @@ import { LoginComponent } from './login/components/login/login.component';
 
     AppRoutingModule
   ],
-  providers: [ApplicationProperties],
+  providers: [ApplicationProperties, AppCustomPreloader],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

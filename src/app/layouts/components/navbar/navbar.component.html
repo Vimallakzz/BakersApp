@@ -1,3 +1,15 @@
-<p>
-  navbar works!
-</p>
+<div class="d-inline-block w-250px py-4 side-navbar">
+  <a class="navbar-brand flex-align-center" href="#">
+    <img src="../../../../assets/images/olam_header_logo.svg"  height="40" width="150" alt="Olam"/>
+  </a>
+  <nav class="navbar py-5 px-0">
+    <ul class="navbar-nav w-100">
+      <li class="nav-item" *ngFor="let item of menuItems">
+        <a class="nav-link px-3" [routerLink]="item.path" routerLinkActive="router-link-active" >
+          <img [src]="item.imgSrc"  height="15" width="15" alt=""/>
+          <span class="pl-3">{{item.name}}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>

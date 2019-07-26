@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ghaana": {
+    "bakers": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ghaana",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -119,18 +119,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ghaana:build"
+            "browserTarget": "bakers:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ghaana:build:production"
+              "browserTarget": "bakers:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ghaana:build"
+            "browserTarget": "bakers:build"
           }
         },
         "test": {
@@ -166,7 +166,7 @@
         }
       }
     },
-    "ghaana-e2e": {
+    "bakers-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -175,11 +175,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ghaana:serve"
+            "devServerTarget": "bakers:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ghaana:serve:production"
+              "devServerTarget": "bakers:serve:production"
             }
           }
         },
@@ -195,5 +195,5 @@
       }
     }
   },
-  "defaultProject": "ghaana"
+  "defaultProject": "bakers"
 }
