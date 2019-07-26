@@ -1,3 +1,199 @@
-<p>
-  inbox works!
-</p>
+<style>
+    .card-title{
+      font-size: 14px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight:bold;
+  }
+  
+  .avatar_image{
+      border-radius: 50px
+  }
+    .user-title {
+      font-size: 14px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  
+    .user-info {
+      font-size: 12px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  
+    .avatar_image {
+      border-radius: 50px
+    }
+  
+    .card {
+      border: none;
+    }
+  
+    .card:hover {
+      background-color: #D9D9D9;
+    }
+  
+    .right-message {
+      width: 60%;
+      float: right;
+    }
+  
+    .message-body {
+      border-radius: 4px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 15px;
+      background: #EBEBEB;
+      /* box-shadow: 0 -8px 244px 0 rgba(0, 0, 0, 0.2), 0 1px 3px 0 rgba(0, 0, 0, 0.10); */
+    }
+  
+    .chart-container {
+      height: calc(100vh - 280px);
+      overflow-y: auto
+    }
+  
+    .left-message {
+      width: 60%;
+      float: left;
+      text-align: left
+    }
+  
+    .sender-name {
+      background-color: #FD4E00;
+      border: none;
+      height: 20px;
+      border-radius: 16px;
+      padding: 2px 6px;
+      color: white;
+  
+    }
+  
+    #over img {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+  
+  
+    .input-group-append:hover {
+      opacity: .5;
+    }
+  
+    .no-border {
+      border: none;
+      outline: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      resize: none;
+    }
+  
+  
+  
+    /* .outer {
+      max-height: 84px;
+      font-size: 15px;
+      font-family: Arial, Helvetica, sans-serif;
+      -webkit-box-shadow: inset 2px 2px 2px 0px #dddddd;
+      -moz-box-shadow: inset 2px 2px 2px 0px #dddddd;
+      box-shadow: inset 2px 1px 2px 0px #DDDDDD;
+      padding: 6px 10px;
+      margin: 10px;
+      border: 2px solid lightgrey;
+      border-radius: 4px;
+  
+    } */
+  
+    .outer-message-box {
+      
+      /* -webkit-box-shadow: inset 2px 2px 2px 0px #dddddd;
+      -moz-box-shadow: inset 2px 2px 2px 0px #dddddd;
+      box-shadow: inset 2px 1px 2px 0px #DDDDDD;*/
+      border: 1px solid grey;
+      border-radius: 4px;
+      position: absolute;
+      max-width: 90%;
+      bottom: 20px;
+    }
+  
+    .outer-message-box .attachment {
+      position: absolute;
+      z-index: 2;
+      left: 6px;
+      bottom: 8px;
+  } 
+  
+    .message-box {
+      overflow-y: hidden;
+      margin: 6px;
+      border-right: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      max-height: 56px;
+      max-height: 84px;
+      font-size: 15px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  </style>
+  <!-- <h1>sample from inbox</h1> -->
+  
+  <div style="box-shadow: 0 -8px 244px 0 rgba(0, 0, 0, 0.2), 0 1px 3px 0 rgba(0, 0, 0, 0.10);margin-top: 64px">
+    <div class="row m-0">
+      <div class="col-sm-12 col-md-4 col-lg-4 col-xl-3 px-0 pt-2">
+        <div class="p-2" style="height: calc(100vh - 80px); overflow-y: auto">
+          <div class="mp-4 " *ngFor="let eachUser of userList">
+            <div class="card">
+
+            
+            <div class="card-body" style="padding: .75rem 1rem !important">
+              <img class="img-fluid avatar_image mx-1 float-left" src="assets/images/avatar_48.jpeg" alt="avatar image">
+              <div class="user-info" style="float: right">
+                {{eachUser.date | date:'MMM dd'}}
+              </div>
+              <div class="user-title font-weight-bold">{{eachUser.userName}}</div>
+              <div class="user-title">{{eachUser.designation}}</div>
+              <div class="user-info text-muted">{{eachUser.info}}</div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-8 col-lg-8 col-xl-9 border-left p-0" style="height:calc(100vh - 86px);">
+        <div class="pl-5 pr-2 pt-4">
+          <ng-container>
+            <div class="mx-1" style="float: left"><img class="img-fluid avatar_image" src="assets/images/avatar_48.jpeg"
+                alt="avatar image"></div>
+            <div class="user-info" style="float: right">
+              Complaint Date : May 05, 2019
+            </div>
+            <span class=" font-weight-bold">David James</span> &nbsp;&nbsp;
+            <span class=" text-muted">12131123 - Performance</span>
+            <div class=" text-muted">Lagos</div>
+          </ng-container>
+          <div class="chart-container">
+            <div class="card-body p-0 mt-5" *ngFor="let eachChart of chartList"
+              [ngClass]="{'left-message':eachChart.isme === false,'right-message':eachChart.isme === true  }">
+              <span class="user-title font-weight-bold sender-name">
+                {{eachChart.userName}}
+              </span>&nbsp;&nbsp;<span style="font-size: 12px;">{{eachChart.date | date:'h:mm a MMM d - y'}}</span>
+              <div class="message-body p-2">{{eachChart.message}}</div>
+            </div>
+          </div>
+          <div class="input-group outer-message-box">
+              <div class="input-group-prepend attachment" style="display: block;text-align:center;cursor: pointer;">
+                  <span class="input-group-text no-border" style="background: none">
+                    <img src="assets/images/path_304.svg" />
+                  </span>
+                </div>
+            <textarea class="form-control message-box no-border" placeholder="Type your message here…"
+              aria-label="With textarea"></textarea>
+            <div class="input-group-append" style="display: block;text-align:center;cursor: pointer;">
+
+              <span class="input-group-text no-border" style="background: none">
+                <img src="assets/images/right-arrow.svg" />
+              </span>
+              <div style="color: #a3cb09;">Send</div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
