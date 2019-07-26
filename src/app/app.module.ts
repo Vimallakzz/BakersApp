@@ -9,10 +9,11 @@ import { AppLayoutComponent } from './layouts/components/app-layout/app-layout.c
 import { SharedModule } from './shared/shared.module';
 import { ApplicationProperties } from './constants/app.properties';
 import { LoginComponent } from './login/components/login/login.component';
+import { HeaderComponent } from './layouts/components/header/header.component';
 
 
 @NgModule({
-  declarations: [AppComponent, AppLayoutComponent, NavbarComponent, LoginComponent],
+  declarations: [AppComponent, AppLayoutComponent, NavbarComponent, LoginComponent, HeaderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
